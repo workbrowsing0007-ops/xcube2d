@@ -5,9 +5,9 @@
 #include <memory>
 #include <iostream>
 
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "EngineCommon.h"
 #include "GameMath.h"
@@ -30,7 +30,7 @@ static const SDL_Color SDL_COLOR_PURPLE = { 0x80, 0, 0x80 };
 static const SDL_Color SDL_COLOR_VIOLET = { 0xEE, 0x82, 0xEE };
 
 inline SDL_Color getRandomColor(int minRGB, int maxRGB) {
-	SDL_Color color = { (Uint8)getRandom(minRGB, maxRGB), (Uint8)getRandom(minRGB, maxRGB), (Uint8)getRandom(minRGB, maxRGB) };
+	SDL_Color color = { (Uint8)getRandom(minRGB, maxRGB), (Uint8)getRandom(minRGB, maxRGB), (Uint8)getRandom(minRGB, maxRGB), 255 };
 	return color;
 }
 
@@ -81,11 +81,11 @@ class GraphicsEngine {
 		void drawRect(const Rectangle2 &);
 		void drawRect(const Rectangle2 &, const SDL_Color &);
 
-		void drawRect(SDL_Rect *, const SDL_Color &);
-		void drawRect(SDL_Rect *);
+		void drawRect(const SDL_Rect *, const SDL_Color &);
+		void drawRect(const SDL_Rect *);
 		void drawRect(const int &x, const int &y, const int &w, const int &h);
 
-		void fillRect(SDL_Rect *);
+		void fillRect(const SDL_Rect *);
 		void fillRect(const int &x, const int &y, const int &w, const int &h);
 
 		void drawPoint(const Point2 &);
@@ -93,8 +93,8 @@ class GraphicsEngine {
 		void drawLine(const Point2 & start, const Point2 & end);
 		void drawCircle(const Point2 & center, const float & radius);
 		void drawEllipse(const Point2 & center, const float & radiusX, const float & radiusY);
-		void drawTexture(SDL_Texture *, SDL_Rect * src, SDL_Rect * dst, const double & angle = 0.0, const SDL_Point * center = 0, SDL_RendererFlip flip = SDL_FLIP_NONE);
-		void drawTexture(SDL_Texture *, SDL_Rect * dst, SDL_RendererFlip flip = SDL_FLIP_NONE);
+		void drawTexture(SDL_Texture *, const SDL_Rect * src, const SDL_Rect * dst, const double & angle = 0.0, const SDL_FPoint * center = 0, SDL_FlipMode flip = SDL_FLIP_NONE);
+		void drawTexture(SDL_Texture *, const SDL_Rect * dst, SDL_FlipMode flip = SDL_FLIP_NONE);
 		void drawText(const std::string & text, const int &x, const int &y);
 
 		void setDrawColor(const SDL_Color &);

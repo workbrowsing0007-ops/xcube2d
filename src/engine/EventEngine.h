@@ -4,7 +4,7 @@
 #include <string>
 #include <thread>
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "EngineCommon.h"
 #include "GameMath.h"
@@ -25,7 +25,7 @@ class EventEngine {
 		bool keys[Key::LAST];
 		bool buttons[Mouse::BTN_LAST];
 
-		void updateKeys(const SDL_Keycode &, bool);
+		void updateKeys(const SDL_Keycode, bool);
 
 		EventEngine();
 	public:

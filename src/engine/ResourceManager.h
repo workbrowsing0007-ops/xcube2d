@@ -6,12 +6,13 @@
 
 #include "GraphicsEngine.h"
 #include "AudioEngine.h"
+#include <SDL3_mixer/SDL_mixer.h>
 
 class ResourceManager {
 	private:
 		static std::map<std::string, SDL_Texture *> textures;
-		static std::map<std::string, Mix_Chunk *> sounds;
-		static std::map<std::string, Mix_Music *> mp3files;
+		static std::map<std::string, MIX_Audio *> sounds;
+		static std::map<std::string, MIX_Audio *> mp3files;
 		static std::map<std::string, TTF_Font *> fonts;
 	public:
 
@@ -30,13 +31,13 @@ class ResourceManager {
 		*/
 		static SDL_Texture * loadTexture(std::string fileName, SDL_Color transparent);
 		static TTF_Font * loadFont(std::string fileName, const int & pointSize);
-		static Mix_Chunk * loadSound(std::string fileName);
-		static Mix_Music * loadMP3(std::string fileName);
+		static MIX_Audio * loadSound(std::string fileName);
+		static MIX_Audio * loadMP3(std::string fileName);
 
 		static SDL_Texture * getTexture(std::string fileName);
 		static TTF_Font * getFont(std::string fileName);
-		static Mix_Chunk * getSound(std::string fileName);
-		static Mix_Music * getMP3(std::string fileName);
+		static MIX_Audio * getSound(std::string fileName);
+		static MIX_Audio * getMP3(std::string fileName);
 };
 
 #endif

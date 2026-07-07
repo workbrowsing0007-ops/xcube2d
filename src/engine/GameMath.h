@@ -3,7 +3,7 @@
 
 #include <cstdlib>
 
-#include <SDL_rect.h>
+#include <SDL3/SDL_rect.h>
 
 static const float PI_OVER_180 = (float)(3.14159265358979323846 / 180.0f);
 static const float _180_OVER_PI = (float)(180.0f / 3.14159265358979323846);
@@ -77,13 +77,13 @@ struct Rectangle2 {
         SDL_Rect rect1 = getSDLRect();
         SDL_Rect rect2 = other.getSDLRect();
 
-		return SDL_HasIntersection(&rect1, &rect2) == SDL_TRUE;
+		return SDL_HasRectIntersection(&rect1, &rect2) == true;
 	}
 
 	inline bool intersects(const Line2i & line) {
 		int x1 = line.start.x, y1 = line.start.y, x2 = line.end.x, y2 = line.end.y;
 		SDL_Rect rect = { x, y, w, h };
-		return SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2) == SDL_TRUE;
+		return SDL_GetRectAndLineIntersection(&rect, &x1, &y1, &x2, &y2) == true;
 	}
 };
 
@@ -93,7 +93,7 @@ struct Rectangle2f {
     Rectangle2f(float x, float y, float w, float h) : x(x), y(y), w(w), h(h) {}
 
     SDL_Rect getSDLRect() const {
-        SDL_Rect rect = { x, y, w, h };
+        SDL_Rect rect = { (int)x, (int)y, (int)w, (int)h };
         return rect;
     }
 
@@ -106,13 +106,13 @@ struct Rectangle2f {
         SDL_Rect rect1 = getSDLRect();
         SDL_Rect rect2 = other.getSDLRect();
 
-        return SDL_HasIntersection(&rect1, &rect2) == SDL_TRUE;
+        return SDL_HasRectIntersection(&rect1, &rect2) == true;
     }
 
     inline bool intersects(const Line2i& line) {
         int x1 = line.start.x, y1 = line.start.y, x2 = line.end.x, y2 = line.end.y;
-        SDL_Rect rect = { x, y, w, h };
-        return SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2) == SDL_TRUE;
+        SDL_Rect rect = { (int)x, (int)y, (int)w, (int)h };
+        return SDL_GetRectAndLineIntersection(&rect, &x1, &y1, &x2, &y2) == true;
     }
 };
 

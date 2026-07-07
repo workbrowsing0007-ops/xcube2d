@@ -10,10 +10,10 @@ void Timer::reset() {
 	time = 0;
 }
 
-Uint32 Timer::getTime() {
+Uint64 Timer::getTime() {
 	return time;
 }
 
-Uint32 Timer::getElapsed() {
+Uint64 Timer::getElapsed() {
 	return SDL_GetTicks() - time;
 }
