@@ -15,25 +15,24 @@ XCube2Engine::XCube2Engine() {
 	#endif
 #endif
 
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 		throw EngineException("SDL_Init()", SDL_GetError());
 
 #ifdef __DEBUG
 	debug("SDL_Init() successful");
 #endif
 
-	std::cout << "Logical CPU cores: " << SDL_GetCPUCount() << std::endl;
+	std::cout << "Logical CPU cores: " << SDL_GetNumLogicalCPUCores() << std::endl;
 	std::cout << "System RAM: " << SDL_GetSystemRAM() << " MB" << std::endl;
 	std::cout << "Running on: " << SDL_GetPlatform() << std::endl;
 
-	SDL_version compiled, linked;
-	SDL_VERSION(&compiled);
-	SDL_GetVersion(&linked);
+	int compiled = SDL_VERSION;
+	int linked = SDL_GetVersion();
 
 	printf("Compiled against SDL %d.%d.%d\n",
-		compiled.major, compiled.minor, compiled.patch);
+		SDL_VERSIONNUM_MAJOR(compiled), SDL_VERSIONNUM_MINOR(compiled), SDL_VERSIONNUM_MICRO(compiled));
 	printf("Linked against SDL %d.%d.%d\n",
-		linked.major, linked.minor, linked.patch);
+		SDL_VERSIONNUM_MAJOR(linked), SDL_VERSIONNUM_MINOR(linked), SDL_VERSIONNUM_MICRO(linked));
 
 	Uint32 ticks = SDL_GetTicks();
 	srand(ticks);	// init random seed

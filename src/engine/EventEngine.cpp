@@ -13,31 +13,31 @@ EventEngine::~EventEngine() {}
 
 void EventEngine::pollEvents() {
 	while (SDL_PollEvent(&event)) {
-		if ((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && event.key.repeat == 0) {
-			updateKeys(event.key.keysym.sym, event.type == SDL_KEYDOWN);
+		if ((event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) && event.key.repeat == 0) {
+			updateKeys(event.key.key, event.type == SDL_EVENT_KEY_DOWN);
 		}
 
-		if (event.type == SDL_QUIT) {
+		if (event.type == SDL_EVENT_QUIT) {
 			keys[QUIT] = true;
 		}
 
-		buttons[Mouse::BTN_LEFT]  = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;
-		buttons[Mouse::BTN_RIGHT] = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0;
+		buttons[Mouse::BTN_LEFT]  = (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_LMASK) != 0;
+		buttons[Mouse::BTN_RIGHT] = (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_RMASK) != 0;
 	}
 }
 
-void EventEngine::updateKeys(const SDL_Keycode &key, bool keyDown) {
+void EventEngine::updateKeys(const SDL_Keycode key, bool keyDown) {
 	Key index;
 
 	switch (key) {
 		case SDLK_RIGHT:	index = Key::RIGHT; break;
-		case SDLK_d:		index = Key::D; break;
+		case SDLK_D:		index = Key::D; break;
 		case SDLK_LEFT:		index = Key::LEFT; break; 
-		case SDLK_a:		index = Key::A; break;
+		case SDLK_A:		index = Key::A; break;
 		case SDLK_UP:		index = Key::UP; break;
-		case SDLK_w:		index = Key::W; break;
+		case SDLK_W:		index = Key::W; break;
 		case SDLK_DOWN:		index = Key::DOWN; break;
-		case SDLK_s:		index = Key::S; break;
+		case SDLK_S:		index = Key::S; break;
 		case SDLK_ESCAPE:	index = Key::ESC; break;
 		case SDLK_SPACE:	index = Key::SPACE; break;
 		default:
@@ -64,21 +64,23 @@ bool EventEngine::isPressed(Mouse btn) {
 }
 
 void EventEngine::setMouseRelative(bool b) {
-	if (SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE) < 0) {
-#ifdef __DEBUG
-		debug("Warning: SDL_SetRelativeMouseMode() isn't supported");
-#endif
-	}
+	SDL_SetWindowRelativeMouseMode(SDL_GetKeyboardFocus(), b);
 }
 
 Point2 EventEngine::getMouseDPos() {
 	Point2 mouseDPos;
-	SDL_GetRelativeMouseState(&mouseDPos.x, &mouseDPos.y);
+	float x, y;
+	SDL_GetRelativeMouseState(&x, &y);
+	mouseDPos.x = (int)x;
+	mouseDPos.y = (int)y;
 	return mouseDPos;
 }
 
 Point2 EventEngine::getMousePos() {
 	Point2 pos;
-	SDL_GetMouseState(&pos.x, &pos.y);
+	float x, y;
+	SDL_GetMouseState(&x, &y);
+	pos.x = (int)x;
+	pos.y = (int)y;
 	return pos;
 }
